@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        text-align: center;
+        width: 80%;
+        max-width: 600px;
+        background-color: #fff;
+        padding: 2em;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #ff66b2;
+    }
+
+    textarea {
+        width: 100%;
+        height: 150px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    button {
+        background-color: #ff66b2;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    pre {
+        background-color: #f1f1f1;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        text-align: left;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>my cute code visualizer 🦄</h1>
+        <textarea id="codeInput" placeholder="write your code here..."></textarea>
+        <button id="runBtn">run code</button>
+        <pre id="output"></pre>
+    </div>
+    <script>
+        const outputElement = document.getElementById('output');
+        const customConsole = {
+            log: (...messages) => {
+                messages.forEach(message => {
+                    outputElement.textContent += message + '\n';
+                });
+            }
+        };
+
+        document.getElementById('runBtn').addEventListener('click', function () {
+            const code = document.getElementById('codeInput').value;
+            outputElement.textContent = ''; 
+            try {
+                
+                const originalConsoleLog = console.log;
+                console.log = customConsole.log;
+                eval(code);
+                console.log = originalConsoleLog; 
+            } catch (error) {
+                outputElement.textContent = 'error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+
+</html>
